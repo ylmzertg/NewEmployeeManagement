@@ -1,0 +1,29 @@
+﻿@model EmployeeManagement.Common.VModels.EmployeeLeaveTypeVM
+
+@{
+    ViewData["Title"] = "Çalışan İzin Tipi Güncelleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="form-horizontal" asp-action="Edit">
+    @Html.HiddenFor(x => Model.Id)
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="Name">İzin Tipi</label>
+
+        <div class="col-sm-9">
+            <input asp-for="Name" type="text" id="form-field-1" placeholder="Username" class="col-xs-10 col-sm-5" />
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <input type="submit" value="Edit" class="btn btn-info col-xs-3" />
+        </div>
+    </div>
+</form>
+
+
+

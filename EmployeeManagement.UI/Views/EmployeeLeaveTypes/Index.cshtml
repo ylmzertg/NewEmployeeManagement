@@ -1,0 +1,97 @@
+﻿@model IEnumerable<EmployeeManagement.Common.VModels.EmployeeLeaveTypeVM>
+
+@{
+    ViewData["Title"] = "EmployeeTypeListView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h3>
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Çalışan İzin Takip Listesi
+        </small>
+    </h3>
+</div>
+
+
+<br />
+<div class="col-6 text-left text-white">
+    <a class="btn btn-success" asp-controller="EmployeeLeaveTypes" asp-action="Create">Tip Ekle</a>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Liste İsmi</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @item.Name</td>
+                        <td>@item.DateCreated</td>
+                        <td>
+                            <div class="hidden-sm hidden-xs btn-group">
+                                @*<button class="btn btn-xs btn-info">
+                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                    </button>*@
+                                <a class="btn btn-xs btn-info" asp-controller="EmployeeLeaveTypes" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </a>
+                                <a class="btn btn-xs btn-danger" id="btnRemove" data-id="@item.Id">
+                                    <i class="ace-icon fa fa-trash bigger-120"></i>
+                                </a>
+                                <button class="btn btn-xs btn-warning">
+                                    <i class="ace-icon fa fa-flag bigger-120"></i>
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div><!-- /.span -->
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnRemove").on("click", function () {
+                var id = $("#btnRemove").data("id");
+
+                swal({
+                    title: 'Silmek İstediğinize Emin Misiniz?',
+                    text: 'Silinen Data Geri Alınamaz!',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/EmployeeLeaveTypes/Delete/" + id,
+                            success: function (data) {
+                                if (data.success) {
+                                    toastr.success(data.message);
+                                } else {
+                                    toastr.error(data.message);
+                                }
+                            }
+
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+}
