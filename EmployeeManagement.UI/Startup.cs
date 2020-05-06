@@ -18,17 +18,19 @@ using EmployeeManagement.Data.Implementaion;
 using EmployeeManagement.BusinessEngine.Contracts;
 using EmployeeManagement.Common.Mappings;
 using AutoMapper;
+using EmployeeManagement.Data.DbModels;
+using EmployeeManagement.Common.ConstantsModels;
 
 namespace EmployeeManagement.UI
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,15 +42,20 @@ namespace EmployeeManagement.UI
             services.AddScoped<IEmployeeLeaveTypeBusinessEngine, EmployeeLeaveTypeBusinessEngine>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(Maps));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<UdemyEmployeeManagementContext>();
+
+            services.AddIdentity<Employee,IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<UdemyEmployeeManagementContext>();
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
-            services.AddMvc();  
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -62,7 +69,7 @@ namespace EmployeeManagement.UI
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            SeedData.Seed(userManager, roleManager);
             app.UseRouting();
 
             app.UseAuthentication();

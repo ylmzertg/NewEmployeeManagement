@@ -1,4 +1,8 @@
 ﻿
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<EmployeeManagement.Data.DbModels.Employee> SignInManager
+@inject UserManager<EmployeeManagement.Data.DbModels.Employee> UserManager
 
 <html lang="en">
 <head>
@@ -106,33 +110,20 @@
             </script>
 
             <ul class="nav nav-list">
-                <li class="">
-                    <a asp-controller="EmployeeLeaveTypes" asp-action="Index">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Çalışan İzin Tipi
-                    </a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    if (User.IsInRole(ResultConstant.Admin_Role))
+                    {
+                        <li class="">
+                            <a asp-controller="EmployeeLeaveTypes" asp-action="Index">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Çalışan İzin Tipi
+                            </a>
 
-                    <b class="arrow"></b>
-                </li>
-
-                @*<li class="">
-                        <a asp-area="Identity" asp-page="/Account/Login">
-                            <span class="text-danger">Login</span>
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="">
-                        <a  asp-area="Identity" asp-page="/Account/Register">
-                            <span class="text-danger">Register</span>
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li>*@
-
-
-
+                            <b class="arrow"></b>
+                        </li>
+                    }
+                }
             </ul><!-- /.nav-list -->
 
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

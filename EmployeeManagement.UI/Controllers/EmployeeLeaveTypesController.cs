@@ -1,9 +1,12 @@
 ﻿using EmployeeManagement.BusinessEngine.Contracts;
+using EmployeeManagement.Common.ConstantsModels;
 using EmployeeManagement.Common.VModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.UI.Controllers
 {
+    [Authorize(Roles = ResultConstant.Admin_Role)]
     public class EmployeeLeaveTypesController : Controller
     {
         private readonly IEmployeeLeaveTypeBusinessEngine _employeeLeaveTypeBusinessEngine;
@@ -12,7 +15,7 @@ namespace EmployeeManagement.UI.Controllers
         {
             _employeeLeaveTypeBusinessEngine = employeeLeaveTypeBusinessEngine;
         }
-
+             
         public IActionResult Index()
         {
             var data = _employeeLeaveTypeBusinessEngine.GetAllEmployeeLeaveTypes();

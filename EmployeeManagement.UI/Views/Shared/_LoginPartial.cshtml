@@ -1,11 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @using EmployeeManagement.Common.SessionOperations
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@*@inject SignInManager<IdentityUser> SignInManager
+    @inject UserManager<IdentityUser> UserManager*@
+@inject SignInManager<EmployeeManagement.Data.DbModels.Employee> SignInManager
+@inject UserManager<EmployeeManagement.Data.DbModels.Employee> UserManager
 @*@inject IHttpContextAccessor HttpContextAccessor*@
 
-    @*Session : @HttpContextAccessor.HttpContext.Session.GetString("AppUserInfoSession");*@
+@*Session : @HttpContextAccessor.HttpContext.Session.GetString("AppUserInfoSession");*@
 
 
 
