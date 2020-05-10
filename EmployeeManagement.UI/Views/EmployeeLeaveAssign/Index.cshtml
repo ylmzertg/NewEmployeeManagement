@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="page-header">
+    <h3>
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Çalışan İzin Talep Listesi
+        </small>
+    </h3>
+</div>
+
+
+<br />
+<div class="col-6 text-left text-white">
+    <a class="btn btn-success" asp-controller="EmployeeLeaveRequest" asp-action="Create">Talep Ekle</a>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Talep Eden</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>Sebep</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RequestEmployeeName</td>
+                        <td>@item.StartDate.ToShortDateString()</td>
+                        <td> @item.EndDate.ToShortDateString()</td>
+                        <td>@item.LeaveTypeText</td>
+                  
+                        @if (item.ApprovedStatus != EnumEmployeeLeaveRequestStatus.Approved)
+                        {
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <a class="btn btn-success" asp-controller="EmployeeLeaveRequest" asp-action="Edit" asp-route-id="@item.Id">Onayla
+                                    </a>
+                                    <a class="btn  btn-danger" id="btnRemove" data-id="@item.Id">
+                                        Reddet
+                                    </a>
+                                </div>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div><!-- /.span -->
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnRemove").on("click", function () {
+                var id = $("#btnRemove").data("id");
+
+                swal({
+                    title: 'Silmek İstediğinize Emin Misiniz?',
+                    text: 'Silinen Data Geri Alınamaz!',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/EmployeeLeaveRequest/Delete/" + id,
+                            success: function (data) {
+                                if (data.success) {
+                                    toastr.success(data.message);
+                                    location.reload();
+                                } else {
+                                    toastr.error(data.message);
+                                }
+                            }
+
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+

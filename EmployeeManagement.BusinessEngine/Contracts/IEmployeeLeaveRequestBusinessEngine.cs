@@ -12,5 +12,6 @@ namespace EmployeeManagement.BusinessEngine.Contracts
         Result<EmployeeLeaveRequestVM> EditEmployeeLeaveRequest(EmployeeLeaveRequestVM model, SessionContext user);
         Result<EmployeeLeaveRequestVM> GetAllLeaveRequestById(int id);
         Result<EmployeeLeaveRequestVM> RemoveEmployeeRequest(int id);
+        Result<List<EmployeeLeaveRequestVM>> GetSendApprovedLeaveRequests();
     }
 }

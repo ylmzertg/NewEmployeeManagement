@@ -9,6 +9,7 @@ namespace EmployeeManagement.Common.VModels
     public class EmployeeLeaveRequestVM : BaseVM
     {
         public string RequestingEmployeeId { get; set; }
+        public string RequestEmployeeName { get; set; }
         public EmployeeVM RequestingEmployee { get; set; }
 
         //TODO:Onaylayan Kullanıcı Bilgileri

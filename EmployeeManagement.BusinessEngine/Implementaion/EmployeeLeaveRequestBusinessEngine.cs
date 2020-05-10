@@ -33,8 +33,8 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
         public Result<List<EmployeeLeaveRequestVM>> GetAllLeaveRequestByUserId(string userId)
         {
             var data = _unitOfWork.employeeLeaveRequestRepository.GetAll(
-                u => u.RequestingEmployeeId == userId 
-                && u.Cancelled == false, 
+                u => u.RequestingEmployeeId == userId
+                && u.Cancelled == false,
                 includeProperties: "RequestingEmployee,EmployeeLeaveType").ToList();
 
             if (data != null)
@@ -147,6 +147,41 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             }
             else
                 return new Result<EmployeeLeaveRequestVM>(false, ResultConstant.RecordCreateNotSuccessfully);
+        }
+
+        public Result<List<EmployeeLeaveRequestVM>> GetSendApprovedLeaveRequests()
+        {
+            var data = _unitOfWork.employeeLeaveRequestRepository.GetAll(
+                u => u.Approved == (int)EnumEmployeeLeaveRequestStatus.Send_Approved
+                && u.Cancelled == false,
+                includeProperties: "RequestingEmployee,EmployeeLeaveType").ToList();
+
+            if (data != null)
+            {
+                List<EmployeeLeaveRequestVM> returnData = new List<EmployeeLeaveRequestVM>();
+                foreach (var item in data)
+                {
+                    returnData.Add(new EmployeeLeaveRequestVM()
+                    {
+                        Id = item.Id,
+                        ApprovedStatus = (EnumEmployeeLeaveRequestStatus)item.Approved,
+                        ApprovedText = EnumExtension<EnumEmployeeLeaveRequestStatus>.GetDisplayValue((EnumEmployeeLeaveRequestStatus)item.Approved),
+                        ApprovedEmployeeId = item.ApprovedEmployeeId,
+                        Cancelled = item.Cancelled,
+                        DateRequested = item.DateRequested,
+                        EmployeeLeaveTypeId = item.EmployeeLeaveTypeId,
+                        LeaveTypeText = item.EmployeeLeaveType.Name,
+                        EndDate = item.EndDate,
+                        StartDate = item.StartDate,
+                        RequestComments = item.RequestComments,
+                        RequestingEmployeeId = item.RequestingEmployeeId,
+                        RequestEmployeeName = item.RequestingEmployee.Email
+                    });
+                }
+                return new Result<List<EmployeeLeaveRequestVM>>(true, ResultConstant.RecordFound, returnData);
+            }
+            else
+                return new Result<List<EmployeeLeaveRequestVM>>(false, ResultConstant.RecordNotFound);
         }
         #endregion
     }
