@@ -40,17 +40,24 @@ namespace EmployeeManagement.UI
                     Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddScoped<IEmployeeLeaveTypeBusinessEngine, EmployeeLeaveTypeBusinessEngine>();
+            services.AddScoped<IEmployeeLeaveRequestBusinessEngine, EmployeeLeaveRequestBusinessEngine>();
+
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(Maps));
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<UdemyEmployeeManagementContext>();
 
-            services.AddIdentity<Employee,IdentityRole>().AddDefaultTokenProviders()
+            services.AddIdentity<Employee, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<UdemyEmployeeManagementContext>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +78,7 @@ namespace EmployeeManagement.UI
             app.UseStaticFiles();
             SeedData.Seed(userManager, roleManager);
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -1,4 +1,4 @@
-﻿@inject SignInManager<Employee> SignInManager
+﻿@inject SignInManager<EmployeeManagement.Data.DbModels.Employee> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

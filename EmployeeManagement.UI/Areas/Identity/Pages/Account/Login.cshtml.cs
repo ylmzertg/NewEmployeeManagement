@@ -12,25 +12,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using EmployeeManagement.Data.DbModels;
+using EmployeeManagement.Common.SessionOperations;
+using EmployeeManagement.Data.Contracts;
+using Microsoft.AspNetCore.Http;
+using EmployeeManagement.Common.ConstantsModels;
+using Newtonsoft.Json;
 
 namespace EmployeeManagement.UI.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<Employee> _userManager;
         private readonly SignInManager<Employee> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-       //private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
 
-        public LoginModel(SignInManager<Employee> signInManager, 
+        public LoginModel(SignInManager<Employee> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<Employee> userManager)
+            UserManager<Employee> userManager,
+             IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             //_emailSender = emailSender;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
@@ -85,6 +93,21 @@ namespace EmployeeManagement.UI.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    var user = _unitOfWork.employeeRepository.GetFirstOrDefault(u=>u.Email ==Input.Email.ToLower());
+
+                    var userInfo = new SessionContext()
+                    {
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        //TODO:Admın Bilgisini dinamic olarak getir
+                        IsAdmin=false,
+                        LastName = user.LastName,
+                        LoginId = user.Id
+                    };
+
+                    //Set To User ınfo Session
+                    HttpContext.Session.SetString(ResultConstant.LoginUserInfo, JsonConvert.SerializeObject(userInfo));
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

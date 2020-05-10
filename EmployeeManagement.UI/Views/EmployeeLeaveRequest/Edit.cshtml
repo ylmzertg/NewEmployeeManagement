@@ -1,0 +1,79 @@
+﻿@model EmployeeManagement.Common.VModels.EmployeeLeaveRequestVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <form class="form-horizontal" asp-action="Create">
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.ApprovedStatus)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="LeaveTypeText">İzin Tipi</label>
+
+            <div class="col-sm-4">
+                @*<input asp-for="EmployeeLeaveTypeId" type="text" id="form-field-1" placeholder="Tatil Sebep Tipi" class="col-xs-10 col-sm-5" />
+                <span asp-validation-for="EmployeeLeaveTypeId"></span>*@
+                @Html.DropDownListFor(l => l.EmployeeLeaveTypeId, new SelectList(ViewBag.EmployeeLeaveTypes, "Id", "Name"), "Lütfen İzin Tipi Seçiniz", new { @class = "form-control col-sm-4" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="StartDate">İzin Başlangıç Tarihi</label>
+
+            <div class="col-sm-4">
+                <div class="input-group ">
+                    <input class="form-control date-picker col-xs-10 col-sm-5" asp-for="StartDate" type="text" data-date-format="dd-mm-yyyy" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="EndDate">İzin Bitiş Tarihi</label>
+
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input class="form-control date-picker col-xs-10 col-sm-5" asp-for="EndDate" type="text" data-date-format="dd-mm-yyyy" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="RequestComments">İzin Talep Açıklama</label>
+
+            <div class="col-sm-4">
+                <div class="input-group ">
+                    <textarea class="form-control limited" asp-for="RequestComments" maxlength="250"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Onaya Gönder" class="btn btn-info col-xs-3" />
+            </div>
+        </div>
+    </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/jquery.inputlimiter.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            $('textarea.limited').inputlimiter({
+                remText: '%n character%s remaining...',
+                limitText: 'max allowed : %n.'
+            });
+        });
+    </script>
+}
+
