@@ -43,9 +43,9 @@
                         {
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <a class="btn btn-success" asp-controller="EmployeeLeaveRequest" asp-action="Edit" asp-route-id="@item.Id">Onayla
-                                    </a>
-                                    <a class="btn  btn-danger" id="btnRemove" data-id="@item.Id">
+                                    <a class="btn btn-success" id="btnRequestAssign"  data-id="@item.Id">Onayla</a>
+
+                                    <a asp-controller="EmployeeLeaveRequest" asp-action="Reject" asp-route-id="@item.Id"  class="btn  btn-danger" >
                                         Reddet
                                     </a>
                                 </div>
@@ -63,21 +63,20 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            $("#btnRemove").on("click", function () {
-                var id = $("#btnRemove").data("id");
+            $("#btnRequestAssign").on("click", function () {
+                var id = $("#btnRequestAssign").data("id");
 
                 swal({
-                    title: 'Silmek İstediğinize Emin Misiniz?',
-                    text: 'Silinen Data Geri Alınamaz!',
-                    icon: 'warning',
+                    title: 'Onaylamak İstediğinize Emin Misiniz?',
+                    text: 'Onaylanan Data Geri Alınamaz!',
+                    icon: 'info',
                     buttons: true,
                     dangerMode: true
-                }).then((willDelete) => {
-                    if (willDelete) {
+                }).then((willEditing) => {
+                    if (willEditing) {
                         $.ajax({
-                            type: "DELETE",
-                            url: "/EmployeeLeaveRequest/Delete/" + id,
+                            type: "POST",
+                            url: "/EmployeeLeaveAssign/Approved/" + id,
                             success: function (data) {
                                 if (data.success) {
                                     toastr.success(data.message);

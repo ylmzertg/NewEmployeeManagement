@@ -183,6 +183,27 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             else
                 return new Result<List<EmployeeLeaveRequestVM>>(false, ResultConstant.RecordNotFound);
         }
+
+        public Result<bool> RejectEmployeeLeaveRequest(int id)
+        {
+            var data = _unitOfWork.employeeLeaveRequestRepository.Get(id);
+            if (data != null)
+            {
+                try
+                {
+                    data.Approved = (int)EnumEmployeeLeaveRequestStatus.Rejected;
+                    _unitOfWork.employeeLeaveRequestRepository.Update(data);
+                    _unitOfWork.Save();
+                    return new Result<bool>(true, ResultConstant.RecordCreateSuccessfully);
+                }
+                catch (Exception ex)
+                {
+                    return new Result<bool>(false, ex.Message.ToString());
+                }
+            }
+            else
+                return new Result<bool>(false, ResultConstant.RecordCreateNotSuccessfully);
+        }
         #endregion
     }
 }

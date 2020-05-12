@@ -7,6 +7,6 @@ namespace EmployeeManagement.BusinessEngine.Contracts
 {
     public interface IEmployeeLeaveAssignBusinessEngine
     {
-       
+        Result<bool> ApprovedEmployeeRequest(int id);
     }
 }

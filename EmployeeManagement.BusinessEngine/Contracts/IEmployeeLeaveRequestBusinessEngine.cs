@@ -13,5 +13,6 @@ namespace EmployeeManagement.BusinessEngine.Contracts
         Result<EmployeeLeaveRequestVM> GetAllLeaveRequestById(int id);
         Result<EmployeeLeaveRequestVM> RemoveEmployeeRequest(int id);
         Result<List<EmployeeLeaveRequestVM>> GetSendApprovedLeaveRequests();
+        Result<bool> RejectEmployeeLeaveRequest(int id);
     }
 }

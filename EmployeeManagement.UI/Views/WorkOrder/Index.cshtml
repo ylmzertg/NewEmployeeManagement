@@ -1,0 +1,49 @@
+﻿@model EmployeeManagement.Common.VModels.WorkOrderVM
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <form class="form-horizontal" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="WorkOrderDescription">İzin Tipi</label>
+
+            <div class="col-sm-9">
+                <input asp-for="WorkOrderDescription" type="text" id="form-field-1" placeholder="İş Emri Açıklama" class="col-xs-10 col-sm-5" />
+                <span asp-validation-for="WorkOrderDescription"></span>
+            </div>
+        </div>
+
+        <div class="input-group mb-3 form-group">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">İş Emri Puanı</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" asp-for="WorkOrderPoint">
+                <option selected>Puan Seçimi</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label no-padding-right" asp-for="CreateDate">Sabit Gün Sayısı</label>
+
+            <div class="col-sm-9">
+                <input asp-for="CreateDate" type="number" min="0" max="15" id="form-field-1" placeholder="Sabit Gün Sayısı" class="col-xs-10 col-sm-5" />
+                <span asp-validation-for="CreateDate"></span>
+            </div>
+        </div>
+        <div class="clearfix form-actions">
+            <div class="col-md-offset-3 col-md-9">
+                <input type="submit" value="Create" class="btn btn-info col-xs-3" />
+            </div>
+        </div>
+    </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+

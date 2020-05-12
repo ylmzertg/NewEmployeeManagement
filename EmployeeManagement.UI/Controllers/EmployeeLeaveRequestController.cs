@@ -74,8 +74,7 @@ namespace EmployeeManagement.UI.Controllers
             else
                 return View();
         }
-
-
+        
         [HttpDelete]
         public IActionResult Delete(int id)
         {
@@ -88,5 +87,17 @@ namespace EmployeeManagement.UI.Controllers
             else
                 return Json(new { success = data.IsSuccess, message = data.Message });
         }
+
+        public ActionResult Reject(int id)
+        {
+            if (id > 0)
+            {
+                var data = _employeeLeaveRequestBusinessEngine.RejectEmployeeLeaveRequest((int)id);
+                return RedirectToAction("Index");
+            }
+            else
+                return View();
+        }
+
     }
 }

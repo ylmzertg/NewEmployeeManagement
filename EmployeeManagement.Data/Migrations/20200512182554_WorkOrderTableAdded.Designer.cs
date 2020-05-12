@@ -4,14 +4,16 @@ using EmployeeManagement.Data.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeManagement.Data.Migrations
 {
     [DbContext(typeof(UdemyEmployeeManagementContext))]
-    partial class UdemyEmployeeManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20200512182554_WorkOrderTableAdded")]
+    partial class WorkOrderTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,22 +128,23 @@ namespace EmployeeManagement.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AssignEmployeeId")
+                    b.Property<int>("AssignEmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AssignEmployeeId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ModifiedDate")
+                    b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("WorkOrderDescription")
-                        .HasColumnType("nvarchar(750)")
-                        .HasMaxLength(750);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WorkOrderNumber")
-                        .HasColumnType("nvarchar(35)")
-                        .HasMaxLength(35);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("WorkOrderPoint")
                         .HasColumnType("float");
@@ -151,7 +154,7 @@ namespace EmployeeManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignEmployeeId");
+                    b.HasIndex("AssignEmployeeId1");
 
                     b.ToTable("WorkOrders");
                 });
@@ -411,7 +414,7 @@ namespace EmployeeManagement.Data.Migrations
                 {
                     b.HasOne("EmployeeManagement.Data.DbModels.Employee", "AssignEmployee")
                         .WithMany()
-                        .HasForeignKey("AssignEmployeeId");
+                        .HasForeignKey("AssignEmployeeId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

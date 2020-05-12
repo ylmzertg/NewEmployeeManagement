@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EmployeeManagement.Data.Contracts
 {
@@ -10,6 +8,7 @@ namespace EmployeeManagement.Data.Contracts
         IEmployeeLeaveRequestRepository employeeLeaveRequestRepository { get; }
         IEmployeeLeaveTypeRepository employeeLeaveTypeRepository { get; }
         IEmployeeRepository employeeRepository { get; }
+        IWorkOrderRepository workOrderRepository { get; }
         void Save();
     }
 }
