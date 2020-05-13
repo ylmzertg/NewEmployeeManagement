@@ -21,6 +21,7 @@ namespace EmployeeManagement.Common.VModels
         public string WorkOrderNumber { get; set; }
 
         public string AssignEmployeeId { get; set; }
+        public string AssignEmployeeName { get; set; }
         [ForeignKey("AssignEmployeeId")]
         public EmployeeVM AssignEmployee { get; set; }
     }

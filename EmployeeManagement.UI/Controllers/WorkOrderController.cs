@@ -22,6 +22,9 @@ namespace EmployeeManagement.UI.Controllers
         #region Actions
         public IActionResult Index()
         {
+            var data = _workOrderBusinessEngine.GetAllWorkOrders();
+            if (data.IsSuccess)
+                return View(data.Data);
             return View();
         } 
 

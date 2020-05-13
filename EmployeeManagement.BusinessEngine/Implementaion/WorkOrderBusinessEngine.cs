@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using EmployeeManagement.BusinessEngine.Contracts;
+using EmployeeManagement.Common.ConstantsModels;
+using EmployeeManagement.Common.ResultModels;
+using EmployeeManagement.Common.VModels;
 using EmployeeManagement.Data.Contracts;
 using EmployeeManagement.Data.DbModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace EmployeeManagement.BusinessEngine.Implementaion
 {
@@ -22,35 +25,39 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             _mapper = mapper;
         }
 
-        public void Add(WorkOrder entity)
+        #endregion
+
+        #region CustomMethods
+
+        public Result<List<WorkOrderVM>> GetAllWorkOrders()
         {
-            throw new NotImplementedException();
+            var data = _unitOfWork.workOrderRepository.GetAll(includeProperties: "AssignEmployee").ToList();
+            #region 1.Yontem
+            if (data != null)
+            {
+                List<WorkOrderVM> returnData = new List<WorkOrderVM>();
+                foreach (var item in data)
+                {
+                    returnData.Add(new WorkOrderVM()
+                    {
+                        Id = item.Id,
+                        AssignEmployeeId = item.AssignEmployeeId,
+                        AssignEmployeeName = item.AssignEmployee.Email,
+                        CreateDate = item.CreateDate,
+                        ModifiedDate = item.ModifiedDate,
+                        WorkOrderDescription = item.WorkOrderDescription,
+                        WorkOrderNumber = item.WorkOrderNumber,
+                        WorkOrderPoint = item.WorkOrderPoint,
+                        WorkOrderStatus = item.WorkOrderStatus
+                    });
+                }
+                return new Result<List<WorkOrderVM>>(true, ResultConstant.RecordFound, returnData);
+            }
+            else
+                return new Result<List<WorkOrderVM>>(false, ResultConstant.RecordNotFound);
+            #endregion
         }
 
-        public WorkOrder Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<WorkOrder> GetAll(Expression<Func<WorkOrder, bool>> filter = null, Func<IQueryable<WorkOrder>, IOrderedQueryable<WorkOrder>> orderBy = null, string includeProperties = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public WorkOrder GetFirstOrDefault(Expression<Func<WorkOrder, bool>> filter = null, string includeProperties = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(WorkOrder entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(WorkOrder entity)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

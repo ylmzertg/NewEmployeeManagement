@@ -9,7 +9,7 @@
     <h3>
         <small>
             <i class="ace-icon fa fa-angle-double-right"></i>
-           İş Emri Listesi
+            İş Emri Listesi
         </small>
     </h3>
 </div>
@@ -17,7 +17,7 @@
 
 <br />
 <div class="col-6 text-left text-white">
-    <a class="btn btn-success" asp-controller="WorkOrder" asp-action="Create">Tip Ekle</a>
+    <a class="btn btn-success" asp-controller="WorkOrder" asp-action="Create">İş Emri Ekle</a>
 </div>
 <br />
 <div class="row">
@@ -31,28 +31,37 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td> @item.WorkOrderNumber</td>
+                            <td>@item.CreateDate.ToShortDateString()</td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    @*<button class="btn btn-xs btn-info">
+                                <i class="ace-icon fa fa-pencil bigger-120"></i>
+                            </button>*@
+                                    <a class="btn btn-xs btn-info" asp-controller="WorkOrder" asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                    </a>
+                                    <a class="btn btn-xs btn-danger" id="btnRemove" data-id="@item.Id">
+                                        <i class="ace-icon fa fa-trash bigger-120"></i>
+                                    </a>
+                                    <button class="btn btn-xs btn-warning">
+                                        <i class="ace-icon fa fa-flag bigger-120"></i>
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td> @item.WorkOrderNumber</td>
-                        <td>@item.CreateDate.ToShortDateString()</td>
-                        <td>
-                            <div class="hidden-sm hidden-xs btn-group">
-                                @*<button class="btn btn-xs btn-info">
-                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                    </button>*@
-                                <a class="btn btn-xs btn-info" asp-controller="WorkOrder" asp-action="Edit" asp-route-id="@item.Id">
-                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                </a>
-                                <a class="btn btn-xs btn-danger" id="btnRemove" data-id="@item.Id">
-                                    <i class="ace-icon fa fa-trash bigger-120"></i>
-                                </a>
-                                <button class="btn btn-xs btn-warning">
-                                    <i class="ace-icon fa fa-flag bigger-120"></i>
-                                </button>
-                            </div>
-                        </td>
-
+                        <td>Data Bulunamadı!</td>
                     </tr>
                 }
             </tbody>
