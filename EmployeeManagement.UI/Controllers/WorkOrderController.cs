@@ -1,7 +1,9 @@
 ﻿#region Usings
 using EmployeeManagement.BusinessEngine.Contracts;
+using EmployeeManagement.Common.PagingListModels;
 using EmployeeManagement.Common.VModels;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 #endregion
 
 namespace EmployeeManagement.UI.Controllers
@@ -20,13 +22,16 @@ namespace EmployeeManagement.UI.Controllers
         #endregion
 
         #region Actions
-        public IActionResult Index()
+        public IActionResult Index(int pageNumber = 1)
         {
             var data = _workOrderBusinessEngine.GetAllWorkOrders();
             if (data.IsSuccess)
-                return View(data.Data);
+            {
+                var model =  PaginatedList<WorkOrderVM>.CreateAsync(data.Data, pageNumber, 5);
+                return View(model);
+            }
             return View();
-        } 
+        }
 
         public IActionResult Create(WorkOrderVM model)
         {

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.UI", "EmployeeManagement.UI\EmployeeManagement.UI.csproj", "{9518CD12-8B76-4DC2-9034-24ADFD2D8412}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.UI", "EmployeeManagement.UI\EmployeeManagement.UI.csproj", "{9518CD12-8B76-4DC2-9034-24ADFD2D8412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.BusinessEngine", "EmployeeManagement.BusinessEngine\EmployeeManagement.BusinessEngine.csproj", "{1161CA80-27CA-4690-8388-BABFDA391E5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.BusinessEngine", "EmployeeManagement.BusinessEngine\EmployeeManagement.BusinessEngine.csproj", "{1161CA80-27CA-4690-8388-BABFDA391E5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Common", "EmployeeManagement.Common\EmployeeManagement.Common.csproj", "{E1CC0A6B-B82A-4497-91AE-858B7F416BB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Common", "EmployeeManagement.Common\EmployeeManagement.Common.csproj", "{E1CC0A6B-B82A-4497-91AE-858B7F416BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement.Data", "EmployeeManagement.Data\EmployeeManagement.Data.csproj", "{E73E1C80-8488-4B36-9670-EDF295F214A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Data", "EmployeeManagement.Data\EmployeeManagement.Data.csproj", "{E73E1C80-8488-4B36-9670-EDF295F214A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeManagement.Common.ConstantsModels;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +14,9 @@ namespace EmployeeManagement.Common.VModels
         [MaxLength(750)]
         public string WorkOrderDescription { get; set; }
 
-        public int WorkOrderStatus { get; set; }
+        public EnumWorkOrderStatus WorkOrderStatus { get; set; }
+
+        public string WorkOrderStatusText { get; set; }
 
         public double WorkOrderPoint { get; set; }
 

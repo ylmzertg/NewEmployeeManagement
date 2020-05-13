@@ -1,5 +1,6 @@
-﻿@model IEnumerable<EmployeeManagement.Common.VModels.WorkOrderVM>
+﻿@*@model IEnumerable<EmployeeManagement.Common.VModels.WorkOrderVM>*@
 
+@model EmployeeManagement.Common.PagingListModels.PaginatedList<EmployeeManagement.Common.VModels.WorkOrderVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -27,6 +28,7 @@
                 <tr>
                     <th>İş Emri Numarası</th>
                     <th>Oluşturulma Tarihi</th>
+                    <th>İş Emri Durumu</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -38,11 +40,12 @@
                         <tr>
                             <td> @item.WorkOrderNumber</td>
                             <td>@item.CreateDate.ToShortDateString()</td>
+                            <td>@item.WorkOrderStatusText</td>
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
                                     @*<button class="btn btn-xs btn-info">
-                                <i class="ace-icon fa fa-pencil bigger-120"></i>
-                            </button>*@
+                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                        </button>*@
                                     <a class="btn btn-xs btn-info" asp-controller="WorkOrder" asp-action="Edit" asp-route-id="@item.Id">
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </a>
@@ -68,6 +71,25 @@
         </table>
     </div><!-- /.span -->
 </div>
+
+
+@{
+    var prevDisabled = !Model.PreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.NextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex-1)"
+   class="btn btn-success @prevDisabled">
+    Önceki Sayfa
+</a>
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex+1)"
+   class="btn btn-info @nextDisabled">
+    Sonraki Sayfa
+</a>
+
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EmployeeManagement.BusinessEngine.Contracts;
 using EmployeeManagement.Common.ConstantsModels;
+using EmployeeManagement.Common.Extentsion;
 using EmployeeManagement.Common.ResultModels;
 using EmployeeManagement.Common.VModels;
 using EmployeeManagement.Data.Contracts;
@@ -48,7 +49,8 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
                         WorkOrderDescription = item.WorkOrderDescription,
                         WorkOrderNumber = item.WorkOrderNumber,
                         WorkOrderPoint = item.WorkOrderPoint,
-                        WorkOrderStatus = item.WorkOrderStatus
+                        WorkOrderStatus = (EnumWorkOrderStatus)item.WorkOrderStatus,
+                        WorkOrderStatusText = EnumExtension<EnumWorkOrderStatus>.GetDisplayValue((EnumWorkOrderStatus)item.WorkOrderStatus)
                     });
                 }
                 return new Result<List<WorkOrderVM>>(true, ResultConstant.RecordFound, returnData);
