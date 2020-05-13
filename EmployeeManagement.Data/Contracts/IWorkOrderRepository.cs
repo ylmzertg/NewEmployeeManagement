@@ -2,7 +2,7 @@
 
 namespace EmployeeManagement.Data.Contracts
 {
-    public interface IWorkOrderRepository : IRepositoryBase<WorkOrder>
+    public interface IWorkOrderRepository 
     {
 
     }

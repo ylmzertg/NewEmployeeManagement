@@ -1,47 +1,64 @@
-﻿@model EmployeeManagement.Common.VModels.WorkOrderVM
+﻿@model IEnumerable<EmployeeManagement.Common.VModels.WorkOrderVM>
 
 
 @{
     ViewData["Title"] = "Index";
 }
 
-    <form class="form-horizontal" asp-action="Create">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" asp-for="WorkOrderDescription">İzin Tipi</label>
+<div class="page-header">
+    <h3>
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+           İş Emri Listesi
+        </small>
+    </h3>
+</div>
 
-            <div class="col-sm-9">
-                <input asp-for="WorkOrderDescription" type="text" id="form-field-1" placeholder="İş Emri Açıklama" class="col-xs-10 col-sm-5" />
-                <span asp-validation-for="WorkOrderDescription"></span>
-            </div>
-        </div>
 
-        <div class="input-group mb-3 form-group">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">İş Emri Puanı</label>
-            </div>
-            <select class="custom-select" id="inputGroupSelect01" asp-for="WorkOrderPoint">
-                <option selected>Puan Seçimi</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
+<br />
+<div class="col-6 text-left text-white">
+    <a class="btn btn-success" asp-controller="WorkOrder" asp-action="Create">Tip Ekle</a>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <table id="simple-table" class="table  table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>İş Emri Numarası</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @item.WorkOrderNumber</td>
+                        <td>@item.CreateDate.ToShortDateString()</td>
+                        <td>
+                            <div class="hidden-sm hidden-xs btn-group">
+                                @*<button class="btn btn-xs btn-info">
+                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                    </button>*@
+                                <a class="btn btn-xs btn-info" asp-controller="WorkOrder" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </a>
+                                <a class="btn btn-xs btn-danger" id="btnRemove" data-id="@item.Id">
+                                    <i class="ace-icon fa fa-trash bigger-120"></i>
+                                </a>
+                                <button class="btn btn-xs btn-warning">
+                                    <i class="ace-icon fa fa-flag bigger-120"></i>
+                                </button>
+                            </div>
+                        </td>
 
-        <div class="form-group">
-            <label class="col-sm-3 control-label no-padding-right" asp-for="CreateDate">Sabit Gün Sayısı</label>
-
-            <div class="col-sm-9">
-                <input asp-for="CreateDate" type="number" min="0" max="15" id="form-field-1" placeholder="Sabit Gün Sayısı" class="col-xs-10 col-sm-5" />
-                <span asp-validation-for="CreateDate"></span>
-            </div>
-        </div>
-        <div class="clearfix form-actions">
-            <div class="col-md-offset-3 col-md-9">
-                <input type="submit" value="Create" class="btn btn-info col-xs-3" />
-            </div>
-        </div>
-    </form>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div><!-- /.span -->
+</div>
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />

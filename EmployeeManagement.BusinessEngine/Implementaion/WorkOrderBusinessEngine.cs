@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmployeeManagement.BusinessEngine.Contracts;
 using EmployeeManagement.Data.Contracts;
 using EmployeeManagement.Data.DbModels;
 using System;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace EmployeeManagement.BusinessEngine.Implementaion
 {
-    public class WorkOrderBusinessEngine : IWorkOrderRepository
+    public class WorkOrderBusinessEngine : IWorkOrderBusinessEngine
     {
         #region Variables
         private readonly IUnitOfWork _unitOfWork;
