@@ -82,6 +82,7 @@
                             success: function (data) {
                                 if (data.success) {
                                     toastr.success(data.message);
+                                    location.reload();
                                 } else {
                                     toastr.error(data.message);
                                 }

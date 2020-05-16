@@ -1,0 +1,55 @@
+﻿@model EmployeeManagement.Common.VModels.WorkOrderVM
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form class="form-horizontal" asp-action="Edit">
+    @Html.HiddenFor(x => x.Id)
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="WorkOrderPoint">İş Emri Puanı</label>
+        <div class="col-sm-9">
+            <input asp-for="WorkOrderPoint" type="number" min="0" max="15" id="form-field-1" placeholder="iş Emri Puanı" class="col-xs-10 col-sm-5" />
+            <span asp-validation-for="WorkOrderPoint"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="WorkOrderDescription">İş Emri Açıklaması</label>
+
+        <div class="col-sm-4">
+            <textarea class="form-control limited" style="font-weight:bold" asp-for="WorkOrderDescription" maxlength="2750"></textarea>
+            <span asp-validation-for="WorkOrderDescription"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="AssignEmployeeId">İş Emri Atanan Kişi</label>
+
+        <div class="col-sm-4">
+            @Html.DropDownListFor(u => u.AssignEmployeeId, new SelectList(ViewBag.EmployeeList, "Id", "UserName"), "Lütfen Çalışan Seçiniz", new { @class = "form-control col-sm-4" })
+            <span asp-validation-for="AssignEmployeeId"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label no-padding-right" asp-for="AssignEmployeeId">İş Emri Durumu</label>
+        <div class="col-sm-4">
+            <select class="selectpicker" data-live-search="true" asp-for="WorkOrderStatus">
+                <option asp-for="WorkOrderStatus" data-tokens="ketchup mustard">İş Emri Oluşturuldu</option>
+                <option asp-for="WorkOrderStatus" data-tokens="mustard">Atandı</option>
+                <option asp-for="WorkOrderStatus" data-tokens="frosting">Üstlenildi</option>
+                <option asp-for="WorkOrderStatus" data-tokens="frosting">Kapatıldı</option>
+            </select>
+
+        </div>
+    </div>
+
+
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+            <input type="submit" value="İş Emri Güncelle" class="btn btn-info col-xs-3" />
+        </div>
+    </div>
+</form>
+

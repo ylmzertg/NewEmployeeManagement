@@ -18,6 +18,7 @@ namespace EmployeeManagement.Common.VModels
 
         public string WorkOrderStatusText { get; set; }
 
+        [Required]
         public double WorkOrderPoint { get; set; }
 
         [MaxLength(35)]

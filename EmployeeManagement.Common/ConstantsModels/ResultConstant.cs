@@ -6,6 +6,8 @@
         public const string RecordNotFound = "Kayıt Bulunamadı";
         public const string RecordCreateSuccessfully = "Kayıt Başarıyla Gerçekleşti";
         public const string RecordCreateNotSuccessfully = "Kayıt Gerçekleştirirken Hata Oluştu";
+        public const string RecordRemoveNotSuccessfully = "Silme Gerçekleştirirken Hata Oluştu";
+        public const string RecordRemoveSuccessfully = "Silme Gerçekleştirildi";
 
         //---------------------------------------------------------------------------------------//
         public const string Admin_Role = "Administrator";

@@ -38,6 +38,7 @@ namespace EmployeeManagement.UI
             services.AddScoped<IEmployeeLeaveRequestBusinessEngine, EmployeeLeaveRequestBusinessEngine>();
             services.AddScoped<IEmployeeLeaveAssignBusinessEngine, EmployeeLeaveAssignBusinessEngine>();
             services.AddScoped<IWorkOrderBusinessEngine, WorkOrderBusinessEngine>();
+            services.AddScoped<IEmployeeBusinessEngine, EmployeeBusinessEngine>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(Maps));
