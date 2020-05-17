@@ -2,7 +2,10 @@
 using EmployeeManagement.BusinessEngine.Contracts;
 using EmployeeManagement.Common.PagingListModels;
 using EmployeeManagement.Common.VModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 #endregion
 
@@ -13,13 +16,16 @@ namespace EmployeeManagement.UI.Controllers
         #region Variables
         private readonly IWorkOrderBusinessEngine _workOrderBusinessEngine;
         private readonly IEmployeeBusinessEngine _employeeBusinessEngine;
+        private readonly IHostingEnvironment _hostingEnvironment;
         #endregion
 
         #region Constructor
-        public WorkOrderController(IWorkOrderBusinessEngine workOrderBusinessEngine, IEmployeeBusinessEngine employeeBusinessEngine)
+        [System.Obsolete]
+        public WorkOrderController(IWorkOrderBusinessEngine workOrderBusinessEngine, IEmployeeBusinessEngine employeeBusinessEngine, IHostingEnvironment hostingEnvironment)
         {
             _workOrderBusinessEngine = workOrderBusinessEngine;
             _employeeBusinessEngine = employeeBusinessEngine;
+            _hostingEnvironment = hostingEnvironment;
         }
         #endregion
 
@@ -43,7 +49,17 @@ namespace EmployeeManagement.UI.Controllers
         [HttpPost]
         public IActionResult Create(WorkOrderVM model)
         {
-            var result = _workOrderBusinessEngine.CreateWorkOrder(model);
+            string uniqueFileName = null;
+            if (model.PhotoPath != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "CustomImages");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.PhotoPath.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                model.PhotoPath.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+
+            var result = _workOrderBusinessEngine.CreateWorkOrder(model, uniqueFileName);
             if (result.IsSuccess)
                 return RedirectToAction("Index");
             return View();

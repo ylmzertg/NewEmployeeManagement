@@ -23,4 +23,9 @@
     <ProjectReference Include="..\EmployeeManagement.Data\EmployeeManagement.Data.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\CustomImages\" />
+  </ItemGroup>
+
 </Project>

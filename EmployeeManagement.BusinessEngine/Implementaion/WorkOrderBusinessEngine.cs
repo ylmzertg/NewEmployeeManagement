@@ -60,7 +60,7 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             #endregion
         }
 
-        public Result<WorkOrderVM> CreateWorkOrder(WorkOrderVM model)
+        public Result<WorkOrderVM> CreateWorkOrder(WorkOrderVM model, string uniqueFileName)
         {
             if (model != null)
             {
@@ -72,6 +72,7 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
                     wOrder.WorkOrderNumber = DateTime.Now.ToString();
                     wOrder.WorkOrderPoint = model.WorkOrderPoint;
                     wOrder.WorkOrderStatus = (int)EnumWorkOrderStatus.WorkOrder_Created;
+                    wOrder.PhotoPath = uniqueFileName;
 
                     _unitOfWork.workOrderRepository.Add(wOrder);
                     _unitOfWork.Save();
@@ -104,6 +105,7 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
                     wOrder.WorkOrderPoint = workOrder.WorkOrderPoint;
                     wOrder.WorkOrderStatus = (EnumWorkOrderStatus)workOrder.WorkOrderStatus;
                     wOrder.WorkOrderStatusText = EnumExtension<EnumWorkOrderStatus>.GetDisplayValue((EnumWorkOrderStatus)workOrder.WorkOrderStatus);
+                    wOrder.PhotoPathText = workOrder.PhotoPath;
                     return new Result<WorkOrderVM>(true, ResultConstant.RecordFound, wOrder);
                 }
                 else

@@ -17,6 +17,7 @@ namespace EmployeeManagement.Data.DbModels
         public int WorkOrderStatus { get; set; }
 
         public double WorkOrderPoint { get; set; }
+        public string PhotoPath { get; set; }
 
         [MaxLength(35)]
         public string WorkOrderNumber { get; set; } 
