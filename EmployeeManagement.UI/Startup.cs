@@ -2,6 +2,7 @@ using AutoMapper;
 using EmployeeManagement.BusinessEngine.Contracts;
 using EmployeeManagement.BusinessEngine.Implementaion;
 using EmployeeManagement.Common.ConstantsModels;
+using EmployeeManagement.Common.EmailOperationModels;
 using EmployeeManagement.Common.Mappings;
 using EmployeeManagement.Data.Contracts;
 using EmployeeManagement.Data.DataContext;
@@ -10,6 +11,7 @@ using EmployeeManagement.Data.Implementaion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,13 +36,16 @@ namespace EmployeeManagement.UI
                 options.UseSqlServer(
                     Configuration.GetConnectionString("IdentityConnection")));
 
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
+            //*********************************************************//
             services.AddScoped<IEmployeeLeaveTypeBusinessEngine, EmployeeLeaveTypeBusinessEngine>();
             services.AddScoped<IEmployeeLeaveRequestBusinessEngine, EmployeeLeaveRequestBusinessEngine>();
             services.AddScoped<IEmployeeLeaveAssignBusinessEngine, EmployeeLeaveAssignBusinessEngine>();
             services.AddScoped<IWorkOrderBusinessEngine, WorkOrderBusinessEngine>();
             services.AddScoped<IEmployeeBusinessEngine, EmployeeBusinessEngine>();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //*********************************************************//
             services.AddAutoMapper(typeof(Maps));
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<UdemyEmployeeManagementContext>();
