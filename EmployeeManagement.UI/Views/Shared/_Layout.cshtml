@@ -72,30 +72,9 @@
 
 
             <div class="navbar-buttons navbar-header pull-right" role="navigation">
-                <ul class="nav ace-nav">
-                    @*@if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                            </li>
-                            <li class="nav-item">
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                            </li>
-                        }*@
+                <ul class="nav ace-nav">                  
                     <partial name="_LoginPartial" />
                 </ul>
-                @*<partial name="_LoginPartial" />*@
             </div>
         </div><!-- /.navbar-container -->
     </div>
@@ -143,6 +122,13 @@
                         <a asp-controller="EmployeeLeaveRequest" asp-action="Index">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Çalışan İzin Talebi
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="">
+                        <a asp-controller="Employee" asp-action="Index">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            İş Emirleri Listesi
                         </a>
                         <b class="arrow"></b>
                     </li>

@@ -7,6 +7,7 @@ using EmployeeManagement.Data.Contracts;
 using EmployeeManagement.Data.DbModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EmployeeManagement.BusinessEngine.Implementaion
 {
@@ -52,6 +53,20 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
 
             }
             return new Result<List<EmployeeVM>>(false, ResultConstant.RecordNotFound);
+        }
+
+        public Result<List<WorkOrderVM>> GetWorkOrderByEmployeeId(string employeeId, EnumWorkOrderStatus workOrderStatus)
+        {
+            var data = _unitOfWork.workOrderRepository.
+                            GetAll(u => u.AssignEmployeeId == employeeId
+                                    && u.WorkOrderStatus == (int)workOrderStatus).ToList();
+            if (data != null)
+            {
+                var workOrderVm = _mapper.Map<List<WorkOrder>, List<WorkOrderVM>>(data);
+                return new Result<List<WorkOrderVM>>(true, ResultConstant.RecordFound, workOrderVm);
+            }
+            else
+                return new Result<List<WorkOrderVM>>(false, ResultConstant.RecordNotFound);
         }
 
         #endregion

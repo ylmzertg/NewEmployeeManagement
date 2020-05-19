@@ -16,6 +16,7 @@
 
 
 <br />
+<My-Email mail-to="ertugrulyilmaz">Mail Gönder</My-Email>
 <div class="col-6 text-left text-white">
     <a class="btn btn-success" asp-controller="EmployeeLeaveTypes" asp-action="Create">Tip Ekle</a>
 </div>
@@ -42,6 +43,7 @@
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </button>*@
                                 <a class="btn btn-xs btn-info" asp-controller="EmployeeLeaveTypes" asp-action="Edit" asp-route-id="@item.Id">
+
                                     <i class="ace-icon fa fa-pencil bigger-120"></i>
                                 </a>
                                 <a class="btn btn-xs btn-danger" id="btnRemove" data-id="@item.Id">

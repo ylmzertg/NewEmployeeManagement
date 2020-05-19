@@ -17,6 +17,7 @@
         public const string Admin_Password = "Admin123!";
         //---------------------------------------------------------------------------------------//
         public const string LoginUserInfo = "Giriş Yapan Kullanıcı Bilgisi";
-
+        //---------------------------------------------------------------------------------------//
+        public const string MailTagHelperSuffix = "noktaatisi.com";
     }
 }
