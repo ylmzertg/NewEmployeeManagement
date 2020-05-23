@@ -151,6 +151,35 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             else
                 return new Result<bool>(false, ResultConstant.RecordRemoveNotSuccessfully);
         }
+
+        public Result<List<WorkOrderVM>> GetWorkOrderByEmployeeId(string employeeId)
+        {
+            var data = _unitOfWork.workOrderRepository.GetAll(w => w.AssignEmployeeId == employeeId).ToList();
+            if (data != null)
+            {
+                List<WorkOrderVM> returnData = new List<WorkOrderVM>();
+                //var mappingData = _mapper.Map<List<WorkOrder>, List<WorkOrderVM>>(data);
+                foreach (var item in data)
+                {
+                    returnData.Add(new WorkOrderVM() 
+                    {
+                        Id = item.Id,
+                        AssignEmployeeId = item.AssignEmployeeId,
+                        AssignEmployeeName = item.AssignEmployee != null ? item.AssignEmployee.Email : string.Empty,
+                        CreateDate = item.CreateDate,
+                        ModifiedDate = item.ModifiedDate,
+                        WorkOrderDescription = item.WorkOrderDescription,
+                        WorkOrderNumber = item.WorkOrderNumber,
+                        WorkOrderPoint = item.WorkOrderPoint,
+                        WorkOrderStatus = (EnumWorkOrderStatus)item.WorkOrderStatus,
+                        WorkOrderStatusText = EnumExtension<EnumWorkOrderStatus>.GetDisplayValue((EnumWorkOrderStatus)item.WorkOrderStatus)
+                    });
+                }
+                return new Result<List<WorkOrderVM>>(true, ResultConstant.RecordFound, returnData);
+            }
+            else
+                return new Result<List<WorkOrderVM>>(false, ResultConstant.RecordNotFound);
+        }
         #endregion
     }
 }

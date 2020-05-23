@@ -21,9 +21,14 @@
     <a class="btn btn-success" asp-controller="WorkOrder" asp-action="Create">İş Emri Ekle</a>
 </div>
 <br />
+
+@await Component.InvokeAsync("EmployeeList")
+
+<br />
+<br />
 <div class="row">
     <div class="col-xs-12">
-        <table id="simple-table" class="table  table-bordered table-hover">
+        <table id="workOrderListTable" class="table  table-bordered table-hover">
             <thead>
                 <tr>
                     <th>İş Emri Numarası</th>
@@ -121,7 +126,30 @@
                     }
                 });
             });
+
+            $("#AssignEmployeeId").on("change", function () {
+                //alert("Hebele");
+                var Id= $("#AssignEmployeeId").val();
+
+                    $.ajax({
+                            type: "DELETE",
+                            url: "/WorkOrder/GetWorkOrderByEmployeeId/"+Id,
+                            success: function (data) {
+                                if (data.isSuccess) {
+                                    window.location.href = "?employeeId=" + Id;
+                                    toastr.success(data.message);
+                                } else {
+                                    //toastr.error(data.message);
+                                }
+                            }
+
+                        });
+
+            });
+
         });
+
+        function ChangeEmployeeByWorkOrder(employeeId) { alert(employeeId); }
     </script>
 }
 

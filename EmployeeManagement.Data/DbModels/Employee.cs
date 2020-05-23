@@ -9,5 +9,7 @@ namespace EmployeeManagement.Data.DbModels
         public string LastName { get; set; }
         public string TaxId { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

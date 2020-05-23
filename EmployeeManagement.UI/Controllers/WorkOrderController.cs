@@ -30,8 +30,14 @@ namespace EmployeeManagement.UI.Controllers
         #endregion
 
         #region Actions
-        public  IActionResult Index(int pageNumber = 1)
+        public IActionResult Index(string employeeId, int pageNumber = 1)
         {
+            if (!String.IsNullOrWhiteSpace(employeeId))
+            {
+                var dataWithEmployee = _workOrderBusinessEngine.GetWorkOrderByEmployeeId(employeeId);
+                var model = PaginatedList<WorkOrderVM>.CreateAsync(dataWithEmployee.Data, pageNumber, 5);
+                return View(model);
+            }
             var data = _workOrderBusinessEngine.GetAllWorkOrders();
             if (data.IsSuccess)
             {
@@ -93,6 +99,14 @@ namespace EmployeeManagement.UI.Controllers
                 return Json(new { success = data.IsSuccess, message = data.Message });
             else
                 return Json(new { success = data.IsSuccess, message = data.Message });
+        }
+
+        public ActionResult GetWorkOrderByEmployeeId(string Id)
+        {
+            var data = _workOrderBusinessEngine.GetWorkOrderByEmployeeId(Id);
+            if (data.IsSuccess)
+                return Json(new { isSuccess = data.IsSuccess, message = data.Message, data = data.Data });
+            return RedirectToAction("Index", new { employeeId = Id });
         }
 
         //Asynchorouns Programming Model
