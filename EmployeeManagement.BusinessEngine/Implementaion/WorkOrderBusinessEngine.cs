@@ -66,13 +66,16 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             {
                 try
                 {
+                    var employeeId = SetAssignEmployeeId();
                     WorkOrder wOrder = new WorkOrder();
                     wOrder.CreateDate = DateTime.Now;
                     wOrder.WorkOrderDescription = model.WorkOrderDescription;
                     wOrder.WorkOrderNumber = DateTime.Now.ToString();
                     wOrder.WorkOrderPoint = model.WorkOrderPoint;
-                    wOrder.WorkOrderStatus = (int)EnumWorkOrderStatus.WorkOrder_Created;
+                    wOrder.AssignEmployeeId = employeeId;
+                    wOrder.WorkOrderStatus = String.IsNullOrWhiteSpace(employeeId) == true ? (int)EnumWorkOrderStatus.WorkOrder_Created : (int)EnumWorkOrderStatus.Assigned;
                     wOrder.PhotoPath = uniqueFileName;
+
 
                     _unitOfWork.workOrderRepository.Add(wOrder);
                     _unitOfWork.Save();
@@ -86,6 +89,8 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             else
                 return new Result<WorkOrderVM>(false, "Model Null Gelemez");
         }
+
+
 
         public Result<WorkOrderVM> GetWorkOrder(int id)
         {
@@ -161,7 +166,7 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
                 //var mappingData = _mapper.Map<List<WorkOrder>, List<WorkOrderVM>>(data);
                 foreach (var item in data)
                 {
-                    returnData.Add(new WorkOrderVM() 
+                    returnData.Add(new WorkOrderVM()
                     {
                         Id = item.Id,
                         AssignEmployeeId = item.AssignEmployeeId,
@@ -179,6 +184,36 @@ namespace EmployeeManagement.BusinessEngine.Implementaion
             }
             else
                 return new Result<List<WorkOrderVM>>(false, ResultConstant.RecordNotFound);
+        }
+
+
+        #endregion
+
+        #region PrivateMethods
+
+        public string SetAssignEmployeeId()
+        {
+            var getWorkOrderList = _unitOfWork.workOrderRepository.
+                                    GetAll(w => w.AssignEmployee.IsAdmin != true
+                                             && (w.WorkOrderStatus == (int)EnumWorkOrderStatus.Undertake
+                                                    || w.WorkOrderStatus == (int)EnumWorkOrderStatus.Assigned)
+                                                 && w.AssignEmployeeId != null, includeProperties: "AssignEmployee").ToList();
+
+            var data = getWorkOrderList.GroupBy(x => x.AssignEmployeeId).ToList();
+            //Kullanıcı - IsEmrı Toplam puan
+            Dictionary<string, double> employeeValue = new Dictionary<string, double>();
+            //ASsignEmployee
+            foreach (var emp in data)
+            {
+                double employeePoint = 0;
+                foreach (var subItemWorkOrders in emp)
+                {
+                    employeePoint += subItemWorkOrders.WorkOrderPoint;
+                }
+                employeeValue.Add(emp.Key, employeePoint);
+            }
+            var assignValue = employeeValue.OrderBy(x => x.Value).First().Key;
+            return assignValue;
         }
         #endregion
     }
